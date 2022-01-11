@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Domain.Common;
+using Domain.Entities;
 using Domain.Entities.Identities;
 using Infrastructure.Data.DbContext.Configurations;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -56,5 +57,7 @@ namespace Infrastructure.Data.DbContext
         public override DbSet<User> Users { get; set; }
         public DbSet<UserActivity> UserActivities { get; set; }
         public DbSet<Tokens> Tokens { get; set; }
+        public DbSet<Employee> Employee { get; set; }
+        public DbSet<Department> Department { get; set; }
     }
 }

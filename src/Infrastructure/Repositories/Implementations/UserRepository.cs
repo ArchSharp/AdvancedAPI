@@ -1,6 +1,7 @@
 ﻿using Domain.Entities;
+using Domain.Entities.Identities;
+using Infrastructure.Data.DbContext;
 using Infrastructure.Repositories.Interfaces;
-using Infrastucture.Data.DbContext;
 
 namespace Infrastructure.Repositories.Implementations
 {

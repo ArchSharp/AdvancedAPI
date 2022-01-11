@@ -8,7 +8,6 @@ namespace Infrastructure.Repositories.Interfaces
     public interface IRepository<TEntity> where TEntity : class
     {
         Task<TEntity> GetByIdAsync(Guid id);
-        Task<IEnumerable<TEntity>> GetAllAsync();
         Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate);
         bool Exists(Expression<Func<TEntity, bool>> predicate);
         Task<bool> ExistsAsync(Expression<Func<TEntity, bool>> predicate);

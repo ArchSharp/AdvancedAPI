@@ -1,14 +1,18 @@
 using System.Reflection;
 using API.Extensions;
+using Infrastructure.Data.DbContext;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ShareLoanApp.API.Middlewares;
 using ShareLoanApp.Application.Helpers;
+using ShareLoanApp.Application.Services.Implementations;
+using ShareLoanApp.Application.Services.Interfaces;
 
 namespace API
 {

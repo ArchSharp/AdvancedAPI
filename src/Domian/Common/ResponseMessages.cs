@@ -11,5 +11,11 @@
         public const string InvalidToken = "Invalid token";
         public const string MissingClaim = "MissingClaim:";
         public const string PasswordCannotBeEmpty = "Password cannot be empty";
+        public const string staffIdExist = "StaffId already exist";
+        public const string AgeLimitError = "Age must not be less than 16";
+        public const string EmployeeNotFound = "Employee not found";
+        public const string DeleteEmployeeIdResponse = " has been deleted from the records";
+        public const string UpdateEmployeeByIdResponse = " has been updated in the records";
+        public const string DepartmentExist = "Department already exist";
     }
 }

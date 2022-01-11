@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 using Domain.Common;
 
 namespace Domain.Entities.Identities
@@ -12,5 +13,6 @@ namespace Domain.Entities.Identities
         public string Details { get; set; }
         public Guid UserId { get; set; }
         public User User { get; set; }
+
     }
 }

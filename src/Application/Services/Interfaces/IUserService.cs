@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using ShareLoanApp.Application.DTOs;
+﻿using ShareLoanApp.Application.DTOs;
 using ShareLoanApp.Application.Helpers;
 using ShareLoanApp.Domain.DTOs;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ShareLoanApp.Application.Services.Interfaces
 {

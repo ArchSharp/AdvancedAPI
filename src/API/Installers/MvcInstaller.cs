@@ -5,12 +5,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using API.Middlewares;
-using Application.Validations;
 using System;
 using System.IO;
 using System.Reflection;
 using System.Text;
+using ShareLoanApp.API.Middlewares;
+using ShareLoanApp.Application.Validations;
 
 namespace API.Installers
 {

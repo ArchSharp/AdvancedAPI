@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Infrastucture.Data.DbContext;
+using Infrastructure.Data.DbContext;
 
 namespace API.Installers
 {

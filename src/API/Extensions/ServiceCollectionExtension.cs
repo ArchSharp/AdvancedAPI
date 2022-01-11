@@ -60,10 +60,11 @@ namespace API.Extensions
         }
         public static void ConfigureSqlContext(this IServiceCollection services, IConfiguration configuration)
         {
+            var constring = configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<AppDbContext>(opts =>
                 opts
                     .UseLoggerFactory(ContextLoggerFactory)
-                    .UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+                    .UseSqlServer(constring));
         }
 
         public static void ConfigureJwt(this IServiceCollection services, IConfiguration configuration)
