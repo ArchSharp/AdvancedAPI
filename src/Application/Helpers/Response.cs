@@ -4,6 +4,7 @@
     {
         public bool Success { get; set; }
         public string Message { get; set; }
+        public object ExtraInfo { get; set; }
     }
     public class SuccessResponse<T> : Response
     {

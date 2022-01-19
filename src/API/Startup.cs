@@ -1,4 +1,5 @@
 using System.Reflection;
+using System.Text.Json.Serialization;
 using API.Extensions;
 using Infrastructure.Data.DbContext;
 using Microsoft.AspNetCore.Builder;
@@ -52,6 +53,8 @@ namespace API
             services.ConfigureApiVersioning(Configuration);
             services.ConfigureMvc();
             services.ConfigureGlobalization();
+            //services.AddControllers().AddJsonOptions(x =>
+              //      x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

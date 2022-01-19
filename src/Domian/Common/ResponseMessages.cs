@@ -17,5 +17,8 @@
         public const string DeleteEmployeeIdResponse = " has been deleted from the records";
         public const string UpdateEmployeeByIdResponse = " has been updated in the records";
         public const string DepartmentExist = "Department already exist";
+        public const string DepartmentNotExist = "Department does not exist";
+        public const string DeleteDepartmentByIdResponse = " has been deleted from the records";
+        public const string DepartmentCreationSuccessResponse = " Department created successfully";
     }
 }

@@ -27,7 +27,7 @@ namespace ShareLoanApp.API.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost()]
-        [ProducesResponseType(typeof(SuccessResponse<CreateEmployeeDtoResponse>), 201)]
+        [ProducesResponseType(typeof(SuccessResponse<CreateEmployeeDto>), 201)]
         public async Task<IActionResult> CreateEmployee(CreateEmployeeDto model)
         {
             var response = await _employeeService.CreateEmployee(model);
@@ -41,7 +41,7 @@ namespace ShareLoanApp.API.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id}", Name = nameof(GetEmployeeById))]
-        [ProducesResponseType(typeof(SuccessResponse<GetEmployeeDtoResponse>), 200)]
+        [ProducesResponseType(typeof(SuccessResponse<GetEmployeeDto>), 200)]
         public async Task<IActionResult> GetEmployeeById(Guid id)
         {
             var response = await _employeeService.GetEmployeeById(id);
@@ -56,7 +56,7 @@ namespace ShareLoanApp.API.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPut("{id}")]
-        [ProducesResponseType(typeof(SuccessResponse<UpdateEmployeeDtoResponse>), 200)]
+        [ProducesResponseType(typeof(SuccessResponse<UpdateEmployeeDto>), 200)]
         public async Task<IActionResult> UpdateEmployee(Guid id, UpdateEmployeeDto model)
         {
             var response = await _employeeService.UpdateEmployeeById(id, model);
@@ -70,7 +70,7 @@ namespace ShareLoanApp.API.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("{id}", Name = nameof(DeleteEmployeeById))]
-        [ProducesResponseType(typeof(SuccessResponse<DeleteEmployeeDtoResponse>), 201)]
+        [ProducesResponseType(typeof(SuccessResponse<DeleteEmployeeDto>), 201)]
         public async Task<IActionResult> DeleteEmployeeById(Guid id)
         {
             var response = await _employeeService.DeleteEmployeeById(id);
@@ -86,10 +86,24 @@ namespace ShareLoanApp.API.Controllers
         /// <returns></returns>
         [HttpGet()]
         [Route("search")]
-        [ProducesResponseType(typeof(SuccessResponse<SearchEmployeeDtoResponse>), 200)]
+        [ProducesResponseType(typeof(SuccessResponse<SearchEmployeeDto>), 200)]
         public async Task<IActionResult> GetEmployeeBySearch(string search)
         {
             var response = await _employeeService.GetEmployeeBySearch(search);
+
+            return Ok(response);
+        }
+
+        /// <summary>
+        /// Endpoint to get all the departments for an employee
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("{id}/departments")]
+        [ProducesResponseType(typeof(SuccessResponse<GetEmployeeDepartmentsDto>), 200)]
+        public async Task<IActionResult> GetEmployeeDepartments(Guid id)
+        {
+            var response = await _employeeService.GetEmployeeDepartments(id);
 
             return Ok(response);
         }

@@ -103,5 +103,15 @@ namespace Infrastructure.Repositories.Implementations
         {
             _context.Set<TEntity>().UpdateRange(entity);
         }
+
+        public IQueryable<TEntity> QueryableEntity(Expression<Func<TEntity, bool>> predicate = null)
+        {
+            if(predicate == null)
+            {
+                return _context.Set<TEntity>().AsQueryable();
+            }
+            return _context.Set<TEntity>().AsQueryable()
+                .Where(predicate);
+        }
     }
 }
