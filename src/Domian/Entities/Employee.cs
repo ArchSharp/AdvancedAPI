@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Domain.Common;
 
@@ -6,6 +8,10 @@ namespace Domain.Entities
 {
     public class Employee: AuditableEntity
     {
+        public Employee()
+        {
+            Departments = new List<Department>();
+        }
         public Guid Id { get; set; }
         public String Name { get; set; }
         public String StaffId { get; set; }
@@ -16,7 +22,8 @@ namespace Domain.Entities
         public String City { get; set; }
         public String State { get; set; }
         // Navigation properties
-        public Department Department { get; set; }
-        public Guid DepartmentId { get; set; }
+        public ICollection<Department> Departments { get; set; }
+
+        //public Guid DepartmentIds { get; set; }
     }
 }

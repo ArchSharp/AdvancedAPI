@@ -16,6 +16,7 @@ using ShareLoanApp.Domain.Entities;
 using Domain.Entities;
 using System.Collections;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace ShareLoanApp.Application.Services.Implementations
 {
@@ -37,20 +38,21 @@ namespace ShareLoanApp.Application.Services.Implementations
         }
 
         // To create an Employee
-        public async Task<SuccessResponse<CreateEmployeeDtoResponse>> CreateEmployee(CreateEmployeeDto model)
+        public async Task<SuccessResponse<CreateEmployeeDto>> CreateEmployee(CreateEmployeeDto model)
         {
             // ReSharper disable once HeapView.ClosureAllocation
             var staff_id = model.StaffId;
             var isStaffIdExist = await _employeeRepository.ExistsAsync(x => x.StaffId == staff_id);
-
-            var department_id = model.DepartmentId;
-            var isDepartmentIdExist = await _departmentRepository.ExistsAsync(x => x.Id == department_id);
-
+            int cnt_failed = 0;
+            int cnt_total = 0;
+            string[] failed = {""};
+            
+           
             if (isStaffIdExist)
                 throw new RestException(HttpStatusCode.BadRequest, message: ResponseMessages.staffIdExist);
 
-            if (!isDepartmentIdExist)
-                throw new RestException(HttpStatusCode.BadRequest, message: ResponseMessages.DepartmentExist);
+            //if (!isDepartmentIdExist)
+              //  throw new RestException(HttpStatusCode.BadRequest, message: ResponseMessages.DepartmentExist);
 
             //check age
             var age = DateTime.Now.Year - model.DateOfBirth.Year;
@@ -58,30 +60,45 @@ namespace ShareLoanApp.Application.Services.Implementations
                 throw new RestException(HttpStatusCode.BadRequest, message: ResponseMessages.AgeLimitError);
 
             var employee = _mapper.Map<Employee>(model);
+            foreach (var item in model.DepartmentIds)
+            {
+                var department = await _departmentRepository.FirstOrDefault(x => x.Id == item);
+                if (department == null)
+                {
+                    cnt_failed++;
+                    cnt_total++;
+                    failed[failed.Length - 1] = "Department with Id " + item.ToString() + "does not exist in the database";
+                }
+                else
+                    employee.Departments.Add(department);
+            }
 
             await _employeeRepository.AddAsync(employee);
             await _employeeRepository.SaveChangesAsync();
+           
+            var employee_verified = await _employeeRepository.QueryableEntity(x => x.Id == employee.Id)
+                .Include(x => x.Departments).FirstOrDefaultAsync();
+            var employeeResponse = _mapper.Map<CreateEmployeeDto>(employee_verified);
 
-            var employeeResponse = _mapper.Map<CreateEmployeeDtoResponse>(employee);
-
-            return new SuccessResponse<CreateEmployeeDtoResponse>
+            return new SuccessResponse<CreateEmployeeDto>
             {
                 Message = ResponseMessages.CreationSuccessResponse,
-                Data = employeeResponse
+                Data = employeeResponse,
+                ExtraInfo = failed 
             };
         }
 
         //To get employee by Id
-        public async Task<SuccessResponse<GetEmployeeDtoResponse>> GetEmployeeById(Guid id)
+        public async Task<SuccessResponse<GetEmployeeDto>> GetEmployeeById(Guid id)
         {
             var employee = await _employeeRepository.SingleOrDefaultNoTracking(x => x.Id == id);
 
             if (employee == null)
                 throw new RestException(HttpStatusCode.NotFound, ResponseMessages.EmployeeNotFound);
 
-            var employeeResponse = _mapper.Map<GetEmployeeDtoResponse>(employee);
+            var employeeResponse = _mapper.Map<GetEmployeeDto>(employee);
 
-            return new SuccessResponse<GetEmployeeDtoResponse>
+            return new SuccessResponse<GetEmployeeDto>
             {
                 Message = ResponseMessages.RetrievalSuccessResponse,
                 Data = employeeResponse
@@ -89,7 +106,7 @@ namespace ShareLoanApp.Application.Services.Implementations
         }
 
         // To update an employee data
-        public async Task<SuccessResponse<UpdateEmployeeDtoResponse>> UpdateEmployeeById(Guid id, UpdateEmployeeDto model)
+        public async Task<SuccessResponse<UpdateEmployeeDto>> UpdateEmployeeById(Guid id, UpdateEmployeeDto model)
         {
             var employee = await _employeeRepository.SingleOrDefault(x => x.Id == id);
             var name = employee.FirstName + " " + employee.LastName;
@@ -103,11 +120,11 @@ namespace ShareLoanApp.Application.Services.Implementations
                 throw new RestException(HttpStatusCode.BadRequest, message: ResponseMessages.AgeLimitError);
 
             _mapper.Map(model, employee);
-            var employeeResponse = _mapper.Map<UpdateEmployeeDtoResponse>(employee);
+            var employeeResponse = _mapper.Map<UpdateEmployeeDto>(employee);
 
             await _employeeRepository.SaveChangesAsync();
             
-            return new SuccessResponse<UpdateEmployeeDtoResponse>
+            return new SuccessResponse<UpdateEmployeeDto>
             {
                 Message = name+ResponseMessages.UpdateEmployeeByIdResponse,
                 Data = employeeResponse
@@ -115,7 +132,7 @@ namespace ShareLoanApp.Application.Services.Implementations
         }
 
         // To delete an employee details
-        public async Task<SuccessResponse<DeleteEmployeeDtoResponse>> DeleteEmployeeById(Guid id)
+        public async Task<SuccessResponse<DeleteEmployeeDto>> DeleteEmployeeById(Guid id)
         {
             var employee = await _employeeRepository.SingleOrDefaultNoTracking(x => x.Id == id);
             
@@ -127,9 +144,9 @@ namespace ShareLoanApp.Application.Services.Implementations
 
             await _employeeRepository.SaveChangesAsync();
 
-            var employeeResponse = _mapper.Map<DeleteEmployeeDtoResponse>(employee);
+            var employeeResponse = _mapper.Map<DeleteEmployeeDto>(employee);
 
-            return new SuccessResponse<DeleteEmployeeDtoResponse>
+            return new SuccessResponse<DeleteEmployeeDto>
             {
                 Message = name+ResponseMessages.DeleteEmployeeIdResponse,
                 Data = employeeResponse
@@ -137,7 +154,7 @@ namespace ShareLoanApp.Application.Services.Implementations
         }
 
         // To get all search query
-        public async Task<SuccessResponse<IEnumerable<SearchEmployeeDtoResponse>>> GetEmployeeBySearch(string search)
+        public async Task<SuccessResponse<IEnumerable<SearchEmployeeDto>>> GetEmployeeBySearch(string search)
         {
             var employeeSearch = await _employeeRepository.FindAsync(x=>x.FirstName == search
                 || x.LastName == search || x.StaffId == search);
@@ -145,36 +162,31 @@ namespace ShareLoanApp.Application.Services.Implementations
             if (employeeSearch.Count() == 0)
                 throw new RestException(HttpStatusCode.NotFound, ResponseMessages.EmployeeNotFound);
 
-            var employeeSearchResponse = _mapper.Map<IEnumerable<SearchEmployeeDtoResponse>>(employeeSearch);
+            var employeeSearchResponse = _mapper.Map<IEnumerable<SearchEmployeeDto>>(employeeSearch);
             var count = employeeSearch.Count();
             
-            return new SuccessResponse<IEnumerable<SearchEmployeeDtoResponse>>
+            return new SuccessResponse<IEnumerable<SearchEmployeeDto>>
             {
                 Message = count+" "+ResponseMessages.RetrievalSuccessResponse,
                 Data = employeeSearchResponse
             };
         }
 
-        // Controller for Department CRUD
-        public async Task<SuccessResponse<CreateDepartmentDtoResponse>> CreateDepartment(CreateDepartmentDto model)
+        // service for getting all departments of an employee
+        public async Task<SuccessResponse<GetEmployeeDepartmentsDto>> GetEmployeeDepartments(Guid id)
         {
-            // ReSharper disable once HeapView.ClosureAllocation
-            var department_name = model.Name;
-            var isDepartmentExist = await _employeeRepository.ExistsAsync(x => x.Name == department_name);
+            var employee = await _employeeRepository.QueryableEntity(x=>x.Id == id)
+                ?.Include(x=>x.Departments)
+                ?.FirstOrDefaultAsync();
 
-            if (isDepartmentExist)
-                throw new RestException(HttpStatusCode.BadRequest, message: ResponseMessages.DepartmentExist);
+            if (employee == null)
+                throw new RestException(HttpStatusCode.BadRequest, message: ResponseMessages.DepartmentNotExist);
 
-            var department = _mapper.Map<Department>(model);
+            var departmentResponse = _mapper.Map<GetEmployeeDepartmentsDto>(employee);
 
-            await _departmentRepository.AddAsync(department);
-            await _departmentRepository.SaveChangesAsync();
-
-            var departmentResponse = _mapper.Map<CreateDepartmentDtoResponse>(department);
-
-            return new SuccessResponse<CreateDepartmentDtoResponse>
+            return new SuccessResponse<GetEmployeeDepartmentsDto>
             {
-                Message = ResponseMessages.CreationSuccessResponse,
+                Message = ResponseMessages.RetrievalSuccessResponse,
                 Data = departmentResponse
             };
         }

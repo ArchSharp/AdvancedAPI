@@ -16,23 +16,21 @@ namespace ShareLoanApp.Application.Mapper
             CreateMap<CreateEmployeeDto, Employee>();
             //map for UpdateEmployee
             CreateMap<UpdateEmployeeDto, Employee>();
-            //map for create department
-            CreateMap<CreateDepartmentDto, Department>();
 
 
             //map for getEmployeebyIdResponse
-            CreateMap<Employee, GetEmployeeDtoResponse>();
+            CreateMap<Employee, GetEmployeeDto>();
             //map for updateEmployeeResponse
-            CreateMap<Employee, UpdateEmployeeDtoResponse>();
+            CreateMap<Employee, UpdateEmployeeDto>();
             //map for CreateEmployeeResponse
-            CreateMap<Employee, CreateEmployeeDtoResponse>();
+            CreateMap<Employee, CreateEmployeeDto>();
             //map for searchemployee
-            CreateMap<Employee, SearchEmployeeDtoResponse>();
+            CreateMap<Employee, SearchEmployeeDto>();
             //map for delete employee
-            CreateMap<Employee, DeleteEmployeeDtoResponse>();
-            //map for create departmentResponse
-            CreateMap<Department, CreateDepartmentDtoResponse>();
-
+            CreateMap<Employee, DeleteEmployeeDto>();
+            //map for getEmployeebyIdResponse
+            CreateMap<Employee, GetEmployeeDepartmentsDto>();
+            
         }
     }
 }

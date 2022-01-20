@@ -9,11 +9,11 @@ namespace ShareLoanApp.Application.Services.Interfaces
 {
     public interface IEmployeeService: IAutoDependencyService
     {
-        Task<SuccessResponse<CreateEmployeeDtoResponse>> CreateEmployee(CreateEmployeeDto model);
-        Task<SuccessResponse<UpdateEmployeeDtoResponse>> UpdateEmployeeById(Guid id, UpdateEmployeeDto model);
-        Task<SuccessResponse<GetEmployeeDtoResponse>> GetEmployeeById(Guid id);
-        Task<SuccessResponse<DeleteEmployeeDtoResponse>> DeleteEmployeeById(Guid id);
-        Task<SuccessResponse<IEnumerable<SearchEmployeeDtoResponse>>> GetEmployeeBySearch(string search);
-        Task<SuccessResponse<CreateDepartmentDtoResponse>> CreateDepartment(CreateDepartmentDto model);
+        Task<SuccessResponse<CreateEmployeeDto>> CreateEmployee(CreateEmployeeDto model);
+        Task<SuccessResponse<UpdateEmployeeDto>> UpdateEmployeeById(Guid id, UpdateEmployeeDto model);
+        Task<SuccessResponse<GetEmployeeDto>> GetEmployeeById(Guid id);
+        Task<SuccessResponse<DeleteEmployeeDto>> DeleteEmployeeById(Guid id);
+        Task<SuccessResponse<IEnumerable<SearchEmployeeDto>>> GetEmployeeBySearch(string search);
+        Task<SuccessResponse<GetEmployeeDepartmentsDto>> GetEmployeeDepartments(Guid id);
     }
 }
