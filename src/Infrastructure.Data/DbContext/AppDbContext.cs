@@ -24,8 +24,9 @@ namespace Infrastructure.Data.DbContext
             
             // customize identity tables to utilize custom names
             UserConfiguration.ApplyUserIdentityConfigurations(builder);
-            
+            // builder.HasDefaultSchema("PartyDataManager");
             builder.ApplyConfigurationsFromAssembly(typeof(UserConfiguration).Assembly);
+            
         }
 
         /// <summary>

@@ -4,10 +4,11 @@
     <TargetFramework>net7.0</TargetFramework>
     <UserSecretsId>e26291b2-3bf9-405f-9883-97594d23d560</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <!-- <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS> -->
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <OutputPath>obj\Debug\net5.0</OutputPath>
+    <OutputPath>obj\Debug\net7.0</OutputPath>
     <NoWarn>1701;1702;1591</NoWarn>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
@@ -38,6 +39,7 @@
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.2" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.18.0" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.1" />
     <PackageReference Include="Sentry.AspNetCore" Version="3.27.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.2" />

@@ -64,7 +64,8 @@ namespace API.Extensions
             services.AddDbContext<AppDbContext>(opts =>
                 opts
                     .UseLoggerFactory(ContextLoggerFactory)
-                    .UseSqlServer(constring));
+                    // .UseSqlServer(constring));
+                    .UseNpgsql(constring));
         }
 
         public static void ConfigureJwt(this IServiceCollection services, IConfiguration configuration)

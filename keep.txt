@@ -1,0 +1,2 @@
+// "DefaultConnection": "Server=localhost\\SQLEXPRESS;Database=apitestdb;Trusted_Connection=True;MultipleActiveResultSets=true"
+    // "WebApiDatabase": "Host=localhost; Database=dotnet-6-crud-api; Username=postgres; Password=mysecretpassword"

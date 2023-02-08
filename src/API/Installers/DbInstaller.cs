@@ -15,7 +15,9 @@ namespace API.Installers
             services.AddDbContext<AppDbContext>(options =>
                 options
                 .UseLoggerFactory(contextLoggerFactory)
-                .UseSqlServer(
+                // .UseSqlServer(
+                //     configuration["DB_CONNECTION_STRING"]));
+                .UseNpgsql(
                     configuration["DB_CONNECTION_STRING"]));
         }
     }
