@@ -97,9 +97,9 @@ namespace ShareLoanApp.API.Configurations
                 TermsOfService = new Uri("https://www.gnu.org/licenses/gpl-3.0.en.html"),
                 Contact = new OpenApiContact
                 {
-                    Name = "Ogbosuka Chris",
-                    Email = "ogbosukachris@gmail.com",
-                    Url = new Uri("https://gmail.com/ogbosukachris@gmail.com")
+                    Name = "Olaiyapo Raphael",
+                    Email = "archraphr@gmail.com",
+                    Url = new Uri("https://gmail.com/archraphr@gmail.com")
                 },
                 License = new OpenApiLicense
                 {
